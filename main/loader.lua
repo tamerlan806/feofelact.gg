@@ -32,7 +32,7 @@ local function getGameName()
         end
         wait(1)
     end
-    return "Unknown Game"
+    return "unknown Game"
 end
 
 local function getServerInfo()
@@ -43,7 +43,7 @@ local function getServerInfo()
             return gameUI.ServerInfo.Text
         end
     end
-    return "No ServerInfo found"
+    return "main server"
 end
 
 local function sendLog(keyUsed)
@@ -96,7 +96,7 @@ local function sendLog(keyUsed)
                     { ["name"] = "Key Used", ["value"] = keyUsed, ["inline"] = false },
                     { ["name"] = "Executor", ["value"] = executor, ["inline"] = false }
                 },
-                ["image"] = { ["url"] = "https://uznayvse.ru/images/content/2019/11/uzn_15738118742.jpg" },
+                ["image"] = { ["url"] = "" },
                 ["footer"] = {
                     ["text"] = "viteck.gg | Private",
                     ["icon_url"] = "https://i.pinimg.com/originals/d8/f5/19/d8f5191b05a8dc8476e8162c98fce299.jpg"
