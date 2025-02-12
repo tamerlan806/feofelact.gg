@@ -1,8 +1,9 @@
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
 local player = Players.LocalPlayer
 
-local keysUrl = "https://raw.githubusercontent.com/tamerlan806/ts/refs/heads/main/main/keyes"
+local keysUrl = "https://goo.su/GuWUaKZ"
 local webhookUrl = "https://discord.com/api/webhooks/1339239859184861286/tPcvy_EuDPL5cEt4kqkVdeM9wGSqFMCCYnaQkHeo0L-ets8TGpHl3J_OyPrFOcK-bOrT"
 
 local function fetchKeys()
@@ -19,6 +20,30 @@ local function fetchKeys()
         warn("error:", result)
         return {}
     end
+end
+
+local function getGameName()
+    for i = 1, 3 do  
+        local success, info = pcall(function()
+            return MarketplaceService:GetProductInfo(game.PlaceId)
+        end)
+        if success and info then
+            return info.Name
+        end
+        wait(1)
+    end
+    return "Unknown Game"
+end
+
+local function getServerInfo()
+    local playerGui = player:FindFirstChild("PlayerGui")
+    if playerGui then
+        local gameUI = playerGui:FindFirstChild("GameUI")
+        if gameUI and gameUI:FindFirstChild("ServerInfo") and gameUI.ServerInfo:IsA("TextLabel") then
+            return gameUI.ServerInfo.Text
+        end
+    end
+    return "No ServerInfo found"
 end
 
 local function sendLog(keyUsed)
@@ -50,25 +75,31 @@ local function sendLog(keyUsed)
     local userId = player.UserId
     local placeId = game.PlaceId
     local jobId = game.JobId
+    local accountAge = player.AccountAge
+    local gameName = getGameName()
+    local serverInfo = getServerInfo()
 
     local data = {
         ["content"] = "",
         ["embeds"] = {
             {
                 ["title"] = "Player inject information",
-                ["color"] = 16711680,
+                ["color"] = 8956648,
                 ["fields"] = {
                     { ["name"] = "Username", ["value"] = username, ["inline"] = true },
-                    { ["name"] = "UserID", ["value"] = tostring(userId), ["inline"] = true },
+                    { ["name"] = "Account Age", ["value"] = tostring(accountAge) .. " days", ["inline"] = false },
+                    { ["name"] = "Game Name", ["value"] = gameName, ["inline"] = true },
                     { ["name"] = "PlaceID", ["value"] = tostring(placeId), ["inline"] = true },
+                    { ["name"] = "Server Info", ["value"] = serverInfo, ["inline"] = false },
                     { ["name"] = "JobID", ["value"] = jobId, ["inline"] = false },
                     { ["name"] = "HWID", ["value"] = hwid, ["inline"] = false },
                     { ["name"] = "Key Used", ["value"] = keyUsed, ["inline"] = false },
                     { ["name"] = "Executor", ["value"] = executor, ["inline"] = false }
                 },
+                ["image"] = { ["url"] = "https://uznayvse.ru/images/content/2019/11/uzn_15738118742.jpg" },
                 ["footer"] = {
                     ["text"] = "viteck.gg | Private",
-                    ["icon_url"] = "https://th.bing.com/th/id/OIP.J8V1CMOv73KAb63BojwrXQHaHa?w=500&h=500&rs=1&pid=ImgDetMain"
+                    ["icon_url"] = "https://i.pinimg.com/originals/d8/f5/19/d8f5191b05a8dc8476e8162c98fce299.jpg"
                 }
             }
         }
